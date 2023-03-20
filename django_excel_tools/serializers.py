@@ -115,7 +115,7 @@ class BaseSerializer(object):
         max_column = len(self.fields)
         validation_errors = []
         cleaned_data = []
-        for row_index, row in enumerate(self.worksheet):
+        for row_index, row in enumerate(self.worksheet.iter_rows()):
             # Ignore row that not yet start data gathering
             if row_index < self.start_index:
                 continue
@@ -125,7 +125,7 @@ class BaseSerializer(object):
 
             for col_index, cell in enumerate(row):
                 if col_index >= max_column:
-                    continue
+                    break
                 key = self.field_names[col_index]
                 field_object = self.fields[key]
                 field_object.value = cell.value
